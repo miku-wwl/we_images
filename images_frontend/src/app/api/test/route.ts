@@ -1,10 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+
+import z from "zod";
+
+// http://localhost:3000/api/test?name=123&email=569144003@qq.com
+
+const inputSchema = z.object({
+    name: z.string().max(10).min(3),
+    email: z.string().email(),
+});
 
 export function GET(request: NextRequest) {
-    console.log("--->");
+    const query = request.nextUrl.searchParams;
 
-    console.log(cookies().get("a"));
+    const name = query.get("name");
+    const email = query.get("email");
 
-    return NextResponse.json({ a: "Hello World!" });
+    const result = inputSchema.safeParse({
+        name,
+        email,
+    });
+
+    if (result.success) {
+        return NextResponse.json(result.data);
+    } else {
+        return NextResponse.json({ error: result.error.message });
+    }
 }
