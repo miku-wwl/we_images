@@ -4,6 +4,13 @@ spring:
     username: root
     password:
 
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liaV51sArDaUKN6Y
+            client-secret: 96c06c8d6c6a88ff8a89bc2ae29c36e15016eb27
 
   jpa:
     hibernate:
